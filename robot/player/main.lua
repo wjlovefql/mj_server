@@ -14,6 +14,11 @@ end
 
 local CMD = {}
 
+function CMD.join_room(room_id)
+    local msg = {room_id = room_id}
+    player:send_request("room.join_room", msg)
+end
+
 skynet.start(function ()
     skynet.dispatch("lua", function (_, session, cmd, ...)
         local f = CMD[cmd]

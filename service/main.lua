@@ -21,7 +21,6 @@ local function main()
 
     -- room_mgr
     skynet.uniqueservice("room_mgr")
-    skynet.call("room_mgr", "lua", "start")
 
     skynet.exit()
 end

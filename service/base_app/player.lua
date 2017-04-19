@@ -45,4 +45,8 @@ function M:pack()
     }
 end
 
+function M:get_account()
+    return self.account
+end
+
 return M

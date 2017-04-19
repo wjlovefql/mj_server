@@ -9,6 +9,10 @@ function CMD.start()
     area_mgr:init()
 end
 
+function CMD.get_area(game_id)
+    return area_mgr:get_area(game_id)
+end
+
 local function dispatch(_, session, cmd, ...)
     local f = CMD[cmd]
     assert(f, "area_mgr接收到非法lua消息: "..cmd)

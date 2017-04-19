@@ -7,10 +7,8 @@ room_id = tonumber(room_id)
 
 local CMD = {}
 
-function CMD.enter()
-    player_mgr:init()
-
-    table_mgr:init()
+function CMD.create_game(room)
+    print("创建游戏")
 end
 
 function CMD.leave()
