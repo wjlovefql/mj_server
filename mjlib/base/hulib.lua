@@ -105,6 +105,7 @@ function M.check_sub(tbl, info)
             return false
         end
 
+        info.eye = true
         return M.check_wave_and_eye(tbl)
     end
 
