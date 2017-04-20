@@ -31,7 +31,7 @@ end
 function M:close(room_id)
     local room = self.room_tbl[room_id]
     self.room_tbl[room_id] = nil
-    for _,v in ipairs(room.player_tbl) do
+    for _,v in ipairs(room.player_list) do
         self.player_2_room[v.account] = nil
     end
 end
@@ -50,12 +50,20 @@ function M:add_ready(room)
 end
 
 function M:check_ready()
+    if not next(self.ready_tbl) then
+        return
+    end
+
     print("check_ready")
     for id, room in pairs(self.ready_tbl) do
-        if room:start() then
-            self:close(id)
-        end
+        room:start()
     end
+
+    self.ready_tbl = {}
+end
+
+function M:room_begin(room_id)
+    self:close(room_id)
 end
 
 return M

@@ -1,14 +1,19 @@
 local skynet = require "skynet"
 local player_mgr = require "player_mgr"
-local table_mgr = require "table_mgr"
+local room = require "room"
+local room_mgr = require "room_mgr"
 
-local room_id = ...
-room_id = tonumber(room_id)
+local area_id = ...
+area_id = tonumber(area_id)
 
 local CMD = {}
 
-function CMD.create_game(room)
+function CMD.create_room(info)
     print("创建游戏")
+
+    local obj = room.new(info)
+    room_mgr:add(obj)
+    obj:begin()
 end
 
 function CMD.leave()
@@ -29,4 +34,6 @@ skynet.start(function ()
             skynet.ret(skynet.pack(f(...)))
         end
     end)
+
+    room_mgr:init()
 end)

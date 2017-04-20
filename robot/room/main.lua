@@ -18,9 +18,11 @@ end
 
 function CMD.create_room_success(room_id)
     print("玩家创建房间成功")
-    for _,v in ipairs(players) do
-        skynet.send(v, "lua", "join_room", room_id)
-    end
+    skynet.timeout(3*100, function()
+        for _,v in ipairs(players) do
+            skynet.send(v, "lua", "join_room", room_id)
+        end
+    end)
 end
 
 skynet.start(function ()

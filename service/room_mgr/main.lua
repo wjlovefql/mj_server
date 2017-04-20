@@ -21,6 +21,10 @@ function CMD.join_room(room_id, player_info)
     return room_mgr:join(room_id, player_info)
 end
 
+function CMD.room_begin(room_id)
+    room_mgr:room_begin(room_id)
+end
+
 local function dispatch(_, session, cmd, ...)
     local f = CMD[cmd]
     assert(f, "room_mgr接收到非法lua消息: "..cmd)

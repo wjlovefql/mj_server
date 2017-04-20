@@ -17,6 +17,8 @@ function M:init(id, game_id, player_info)
     self.game_id = game_id
     self.owner_account = player_info.account
     self.player_list = {player_info}
+    self.ready = false
+    self.getting_area = false
 end
 
 function M:add(player_info)
@@ -31,11 +33,13 @@ end
 function M:start()
     print("开启一桌")
     local area = skynet.call("area_mgr", "lua", "get_area", self.game_id)
-    skynet.send(area.addr, "lua", "create", self:pack())
+    self.getting_area = true
+    skynet.send(area.addr, "lua", "create_room", self:pack())
 end
 
 function M:pack()
     return {
+        id = self.id,
         owner_account = self.owner_account,
         player_list = self.player_list
     }

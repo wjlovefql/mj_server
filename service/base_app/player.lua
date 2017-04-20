@@ -1,4 +1,5 @@
 local db = require "db"
+local sock_mgr = require "sock_mgr"
 
 local M = {}
 
@@ -45,8 +46,18 @@ function M:pack()
     }
 end
 
+function M:sendto_client(proto_name, msg)
+    sock_mgr:send(self.fd, proto_name, msg)
+end
+
 function M:get_account()
     return self.account
+end
+
+function M:room_begin(msg)
+    self.area = msg.addr
+    self.room_id = msg.room_id
+    self:sendto_client("room.room_begin", {})
 end
 
 return M

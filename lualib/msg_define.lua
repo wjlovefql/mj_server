@@ -8,6 +8,8 @@ local id_tbl = {
     {name = "login.login_baseapp"},
     {name = "room.create_room"},
     {name = "room.join_room"},
+    {name = "room.room_begin"},
+    {name = "match.dealt"},
 }
 
 local name_tbl = {}

@@ -15,6 +15,25 @@ function CMD.start(conf)
     msg_handler.init()
 end
 
+function CMD.room_begin(msg)
+    print("room_begin")
+    local obj = player_mgr:get_by_account(msg.account)
+    if not obj then
+        return
+    end
+
+    obj:room_begin(msg)
+end
+
+function CMD.sendto_client(account, proto_name, msg)
+    local obj = player_mgr:get_by_account(account)
+    if not obj then
+        return
+    end
+
+    obj:sendto_client(proto_name, msg)
+end
+
 skynet.start(function()
     skynet.dispatch("lua", function(_, session, cmd, subcmd, ...)
         if cmd == "socket" then
