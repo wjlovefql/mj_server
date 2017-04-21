@@ -7,9 +7,9 @@ WaveEyeTable* WaveEyeTable::m_instance = NULL;
 WaveEyeTable::WaveEyeTable()
 {
     m_collect = false;
-    m_key_num = 1 << 18;
-    m_keys = new bool[1<<18];
-    memset(m_keys, 0, m_key_num/8);
+    m_key_num = 1 << 27;
+    m_keys = new char[m_key_num];
+    memset(m_keys, 0, m_key_num);
 }
 
 WaveEyeTable::~WaveEyeTable()
@@ -32,9 +32,9 @@ int WaveEyeTable::getKey(int number)
     int shift = 0;
     while(number > 0)
     {
-        int n = (number % 10) - 1;
+        int n = (number % 10);
         n = n << shift;
-        shift = shift + 2;
+        shift = shift + 3;
         bits = bits | n;
         number = number/10;
     }
@@ -56,13 +56,13 @@ bool WaveEyeTable::check(int number)
         add(number);
     }
 
-    return m_keys[key];
+    return m_keys[key] == 1;
 }
 
 void WaveEyeTable::add(int number)
 {
     int key = getKey(number);
-    m_keys[key] = true;
+    m_keys[key] = 1;
 }
 
 void WaveEyeTable::dump(char* name)

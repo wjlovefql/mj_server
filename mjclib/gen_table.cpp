@@ -43,11 +43,11 @@ void gen_auto_table_sub(char* cards, int level)
         }
         else if(i <= 24)
         {
-            index = i - 17;
+            index = i - 18;
         }
         else
         {
-            index = i - 15;
+            index = i - 16;
         }
 
         if(index >= 0)
@@ -89,7 +89,7 @@ void gen_auto_table()
     for(int i=0; i<18; ++i)
     {
         cards[i] = 2;
-        printf("将 %d", i+1);
+        printf("将 %d\n", i+1);
         gen_auto_table_sub(cards, 1);
         cards[i] = 0;
     }

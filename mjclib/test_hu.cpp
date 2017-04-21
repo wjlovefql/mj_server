@@ -4,6 +4,15 @@
 #include "wave_table.h"
 #include "wave_eye_table.h"
 
+void print_cards(char* cards)
+{
+    for(int i=0;i<34;++i)
+    {
+          printf("%d,", cards[i]);
+    }
+    printf("\n");
+}
+
 void check_hu(char* cards)
 {
     static std::set<int> tested;
@@ -28,7 +37,8 @@ void check_hu(char* cards)
 
     if(!HuLib::get_hu_info(cards, NULL, 0, 0))
     {
-        printf("测试失败");
+        printf("测试失败 \n");
+        print_cards(cards);
     }
 }
 
@@ -43,11 +53,11 @@ void gen_auto_table_sub(char* cards, int level)
         }
         else if(i <= 24)
         {
-            index = i - 17;
+            index = i - 18;
         }
         else
         {
-            index = i - 15;
+            index = i - 16;
         }
 
         if(index >= 0)
@@ -79,11 +89,8 @@ void gen_auto_table_sub(char* cards, int level)
     }
 }
 
-void gen_auto_table()
+void test_two_color()
 {
-    WaveTable::getInstance()->load("wave_table.data");
-    WaveEyeTable::getInstance()->load("wave_eye_table.data");
-
     char cards[34] = {0};
 
     for(int i=0; i<18; ++i)
@@ -95,10 +102,33 @@ void gen_auto_table()
     }
 }
 
+void test_one()
+{
+    char cards[34] = {
+        0,1,1,3,0,0,3,0,0,
+        0,1,1,1,0,0,1,1,1,
+        0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0
+    };
+
+    if(!HuLib::get_hu_info(cards, NULL, 0, 0))
+    {
+        printf("测试失败\n");
+    }
+    else
+    {
+        printf("测试成功\n");
+    }
+}
+
 int main()
 {
-  printf("test hulib begin...\n");
-  gen_auto_table();
+    printf("test hulib begin... sizeof(bool) = %d \n", sizeof(bool));
+    WaveTable::getInstance()->load("wave_table.data");
+    WaveEyeTable::getInstance()->load("wave_eye_table.data");
 
-  return 0;
+
+    test_two_color();
+    //test_one();
+    return 0;
 }

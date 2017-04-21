@@ -21,7 +21,11 @@ gen_table: gen_table.o hulib.o wave_table.o wave_eye_table.o
 test_hu: test_hu.o hulib.o wave_table.o wave_eye_table.o
 	g++ test_hu.o hulib.o wave_table.o wave_eye_table.o -o test_hu
 
+table: gen_table
+	./gen_table
+
 clean:
 	rm *.o
 	rm gen_table
 	rm test_hu
+	rm *.data

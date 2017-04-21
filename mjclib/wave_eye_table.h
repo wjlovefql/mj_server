@@ -3,7 +3,7 @@
 class WaveEyeTable {
 private:
     static WaveEyeTable* m_instance;
-    bool*  m_keys;
+    char*  m_keys;
     int    m_key_num;
     bool   m_collect;
 

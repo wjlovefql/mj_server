@@ -1,7 +1,15 @@
+#include <stdio.h>
 #include <string.h>
 #include "hulib.h"
 #include "wave_table.h"
 #include "wave_eye_table.h"
+
+//#define LOG printf
+#define LOG log
+
+void log(char*, ...)
+{
+}
 
 bool HuLib::get_hu_info(char* const hand_cards, Wave* const waves, char self_card, char other_card)
 {
@@ -12,8 +20,29 @@ bool HuLib::get_hu_info(char* const hand_cards, Wave* const waves, char self_car
 
     if(!check_zi(hand_cards_tmp, info))
     {
+        LOG("字牌检查失败 \n");
         return false;
     }
+
+    if(!check_chi(hand_cards_tmp, info, 0))
+    {
+        LOG("万牌检查失败 \n");
+        return false;
+    }
+
+    if(!check_chi(hand_cards_tmp, info, 9))
+    {
+        LOG("筒牌检查失败\n");
+        return false;
+    }
+
+    if(!check_chi(hand_cards_tmp, info, 18))
+    {
+        LOG("条牌检查失败\n");
+        return false;
+    }
+
+    return true;
 }
 
 bool HuLib::check_zi(char* const hand_cards, HuInfo& info)
@@ -70,10 +99,19 @@ bool HuLib::check_chi(char* const hand_cards, HuInfo& info, int min)
 
 bool HuLib::check_sub(char* const cards, int n, HuInfo& info)
 {
+    LOG("wave:  ");
+    for(int i=0;i<n;++i)
+    {
+        LOG("%d ", cards[i]);
+    }
+    LOG("\n");
+
     int c = 0;
+    int number = 0;
     for(int i=0;i<n;i++)
     {
         c = c + cards[i];
+        number = number * 10 + cards[i];
     }
 
     int yu = c % 3;
@@ -88,30 +126,18 @@ bool HuLib::check_sub(char* const cards, int n, HuInfo& info)
 
         info.eye = true;
 
-        return check_wave_and_eye(cards, n);
+        return check_wave_and_eye(number);
     }
 
-    return check_wave(cards, n);
+    return check_wave(number);
 }
 
-bool HuLib::check_wave(char* const cards, int n)
+bool HuLib::check_wave(int number)
 {
-    int num = 0;
-    for(int i=0; i<n; ++i)
-    {
-        num = num * 10 + cards[i];
-    }
-
-    return WaveTable::getInstance()->check(num);
+    return WaveTable::getInstance()->check(number);
 }
 
-bool HuLib::check_wave_and_eye(char* const cards, int n)
+bool HuLib::check_wave_and_eye(int number)
 {
-    int num = 0;
-    for(int i=0; i<n; ++i)
-    {
-        num = num * 10 + cards[i];
-    }
-
-    return WaveEyeTable::getInstance()->check(num);
+    return WaveEyeTable::getInstance()->check(number);
 }
