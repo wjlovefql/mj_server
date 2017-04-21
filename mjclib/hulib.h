@@ -23,4 +23,6 @@ private:
     static bool check_sub(char* const cards, int n, HuInfo& info);
     static bool check_wave(int number);
     static bool check_wave_and_eye(int number);
+    static bool check_7dui(char* const hand_cards);
+    static bool check_pengpeng(char* const hand_cards, Wave* const waves, char self_card, char other_card);
 };

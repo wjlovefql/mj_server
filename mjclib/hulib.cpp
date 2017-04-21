@@ -141,3 +141,39 @@ bool HuLib::check_wave_and_eye(int number)
 {
     return WaveEyeTable::getInstance()->check(number);
 }
+
+bool HuLib::check_7dui(char* const cards)
+{
+    int c = 0;
+    for(int i=0;i<34;++i)
+    {
+        if(cards[i] % 2 != 0) return false;
+        c += cards[i];
+    }
+
+    if(c != 34) return false;
+
+    return true;
+}
+
+bool HuLib::check_pengpeng(char* const cards, Wave* const waves, char self_card, char other_card)
+{
+    bool eye = false;
+
+    for(int i=0;i<34;++i)
+    {
+        int c = cards[i];
+        if(c == 1 || c == 4) return false;
+
+        if(c == 2)
+        {
+            if(eye) return false;
+            eye = true;
+        }
+    }
+
+    // 检查吃碰杠的牌
+
+    return true;
+}
+

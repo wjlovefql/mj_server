@@ -105,9 +105,9 @@ void test_two_color()
 void test_one()
 {
     char cards[34] = {
-        0,1,1,3,0,0,3,0,0,
+        0,1,1,3,0,0,0,0,0,
         0,1,1,1,0,0,1,1,1,
-        0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,1,1,1,0,
         0,0,0,0,0,0,0
     };
 
@@ -123,12 +123,11 @@ void test_one()
 
 int main()
 {
-    printf("test hulib begin... sizeof(bool) = %d \n", sizeof(bool));
+    printf("test hulib begin...\n");
     WaveTable::getInstance()->load("wave_table.data");
     WaveEyeTable::getInstance()->load("wave_eye_table.data");
 
-
-    test_two_color();
-    //test_one();
+    //test_two_color();
+    test_one();
     return 0;
 }

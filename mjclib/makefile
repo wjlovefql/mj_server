@@ -1,4 +1,4 @@
-all: gen_table test_hu
+all: gen_table test_hu table
 
 hulib.o: hulib.h hulib.cpp
 	g++ -g -c hulib.cpp
