@@ -28,7 +28,7 @@ void check_hu(char* cards)
 
     if(!HuLib::get_hu_info(cards, NULL, 0, 0))
     {
-        //printf("测试失败");
+        printf("测试失败");
     }
 }
 
@@ -81,27 +81,23 @@ void gen_auto_table_sub(char* cards, int level)
 
 void gen_auto_table()
 {
-    WaveTable::getInstance()->setCollect();
-    WaveEyeTable::getInstance()->setCollect();
+    WaveTable::getInstance()->load("wave_table.data");
+    WaveEyeTable::getInstance()->load("wave_eye_table.data");
 
     char cards[34] = {0};
 
     for(int i=0; i<18; ++i)
     {
         cards[i] = 2;
-        printf("将 %d", i+1);
+        printf("将 %d\n", i+1);
         gen_auto_table_sub(cards, 1);
         cards[i] = 0;
     }
-
-
-    WaveTable::getInstance()->dump("wave_table.data");
-    WaveEyeTable::getInstance()->dump("wave_eye_table.data");
 }
 
 int main()
 {
-  printf("generate wave table begin...\n");
+  printf("test hulib begin...\n");
   gen_auto_table();
 
   return 0;
