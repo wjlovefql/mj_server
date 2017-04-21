@@ -1,4 +1,7 @@
+#include <string.h>
 #include "hulib.h"
+#include "wave_table.h"
+#include "wave_eye_table.h"
 
 bool HuLib::get_hu_info(char* const hand_cards, Wave* const waves, char self_card, char other_card)
 {
@@ -7,7 +10,7 @@ bool HuLib::get_hu_info(char* const hand_cards, Wave* const waves, char self_car
 
     HuInfo info;
 
-    if(!check_zi(hand_cards_tmp, info)
+    if(!check_zi(hand_cards_tmp, info))
     {
         return false;
     }
@@ -99,5 +102,16 @@ bool HuLib::check_wave(char* const cards, int n)
         num = num * 10 + cards[i];
     }
 
+    return WaveTable::getInstance()->check(num);
+}
 
+bool HuLib::check_wave_and_eye(char* const cards, int n)
+{
+    int num = 0;
+    for(int i=0; i<n; ++i)
+    {
+        num = num * 10 + cards[i];
+    }
+
+    return WaveEyeTable::getInstance()->check(num);
 }

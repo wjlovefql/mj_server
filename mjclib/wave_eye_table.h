@@ -1,27 +1,27 @@
 #pragma once
 
-class WaveTable {
+class WaveEyeTable {
 private:
-    static WaveTable* m_instance;
+    static WaveEyeTable* m_instance;
     bool*  m_keys;
     int    m_key_num;
     bool   m_collect;
 
-    WaveTable();
-    ~WaveTable();
+    WaveEyeTable();
+    ~WaveEyeTable();
 
 public:
-    static WaveTable* getInstance();
+    static WaveEyeTable* getInstance();
+
+    int getKey(int number);
 
     void setCollect();
 
     bool check(int key);
 
+    void add(int key);
+
     void dump(char* name);
 
     void load(char* name);
-private:
-    int getKey(int number);
-
-    void add(int key);
 };

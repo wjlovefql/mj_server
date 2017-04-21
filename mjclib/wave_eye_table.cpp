@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <string.h>
-#include "wave_table.h"
+#include "wave_eye_table.h"
 
-WaveTable* WaveTable::m_instance = NULL;
+WaveEyeTable* WaveEyeTable::m_instance = NULL;
 
-WaveTable::WaveTable()
+WaveEyeTable::WaveEyeTable()
 {
     m_collect = false;
     m_key_num = 1 << 18;
@@ -12,21 +12,21 @@ WaveTable::WaveTable()
     memset(m_keys, 0, m_key_num/8);
 }
 
-WaveTable::~WaveTable()
+WaveEyeTable::~WaveEyeTable()
 {
     delete[] m_keys;
 }
 
-WaveTable* WaveTable::getInstance()
+WaveEyeTable* WaveEyeTable::getInstance()
 {
     if(!m_instance)
     {
-        m_instance = new WaveTable;
+        m_instance = new WaveEyeTable;
     }
     return m_instance;
 }
 
-int WaveTable::getKey(int number)
+int WaveEyeTable::getKey(int number)
 {
     int bits = 0x0000;
     int shift = 0;
@@ -42,11 +42,12 @@ int WaveTable::getKey(int number)
     return bits;
 }
 
-void WaveTable::setCollect()
+void WaveEyeTable::setCollect()
 {
     m_collect = true;
 }
-bool WaveTable::check(int number)
+
+bool WaveEyeTable::check(int number)
 {
     int key = getKey(number);
 
@@ -58,13 +59,13 @@ bool WaveTable::check(int number)
     return m_keys[key];
 }
 
-void WaveTable::add(int number)
+void WaveEyeTable::add(int number)
 {
     int key = getKey(number);
     m_keys[key] = true;
 }
 
-void WaveTable::dump(char* name)
+void WaveEyeTable::dump(char* name)
 {
     FILE *fp = fopen(name, "wt+");
 
@@ -73,7 +74,7 @@ void WaveTable::dump(char* name)
     fclose(fp);
 }
 
-void WaveTable::load(char* name)
+void WaveEyeTable::load(char* name)
 {
     FILE *fp = fopen(name, "r");
 
