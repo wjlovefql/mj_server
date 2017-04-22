@@ -75,7 +75,9 @@ function M.check_color_chi(cards, cfg, info)
             local count = cards[i]
             if count > 0 then
                 table.insert(tbl, count)
-            else
+	    end
+
+	    if count == 0 or i == cfg.max then
                 if #tbl == 0 then
                     break
                 end
