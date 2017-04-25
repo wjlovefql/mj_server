@@ -8,9 +8,9 @@ local dbconf = {
     host="127.0.0.1",
     port=27017,
     db="game",
-    username="yun",
-    password="yun",
-    authmod="mongodb_cr"
+--    username="yun",
+--    password="yun",
+--    authmod="mongodb_cr"
 }
 
 local M = {}

@@ -20,6 +20,8 @@ https://github.com/yuanfengyun/mj_client
 
   make linux
 
-4、运行
+4、安装mongodb
+
+5、运行
 
   回到根目录：. run.sh

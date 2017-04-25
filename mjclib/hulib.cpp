@@ -81,7 +81,8 @@ bool HuLib::check_chi(char* const hand_cards, HuInfo& info, int min)
         {
             tbl[n++] = c;
         }
-        else
+
+        if(c == 0 || i == min + 9 - 1)
         {
             if(n==0) continue;
 
