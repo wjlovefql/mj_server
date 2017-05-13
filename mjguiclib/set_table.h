@@ -1,19 +1,19 @@
 #pragma once
 
 #include "table.h"
+#include <set>
 
 class SetTable : public Table {
 private:
-    static WaveTable* m_instance;
-    char*  m_keys;
-    int    m_key_num;
-    bool   m_collect;
-
-    SetTable();
-    ~SetTable();
+    std::set<int> m_tbl;
+    bool m_collect;
 
 public:
-    void setCollect();
+    SetTable();
+    virtual ~SetTable();
+
+public:
+    void set_collect();
 
     bool check(int key);
 
@@ -21,7 +21,5 @@ public:
 
     void load(char* name);
 private:
-    int getKey(int number);
-
     void add(int key);
 };

@@ -1,20 +1,16 @@
 #pragma once
 
 class Table {
-private:
+public:
     Table(){}
-    ~Table(){}
+    virtual ~Table(){}
 
 public:
-    virtual void setCollect() = NULL;
+    virtual void set_collect()=0;
 
-    virtual bool check(int key) = NULL;
+    virtual bool check(int key)=0;
 
-    virtual void dump(char* name) = NULL;
+    virtual void dump(char* name)=0;
 
-    virtual void load(char* name) = NULL;
-private:
-    virtual int getKey(int number) = NULL;
-
-    virtual void add(int key) = NULL;
-}
+    virtual void load(char* name)=0;
+};

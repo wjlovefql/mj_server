@@ -11,38 +11,46 @@ void log(char*, ...)
 {
 }
 
-bool HuLib::get_hu_info(char* const hand_cards, Wave* const waves, char self_card, char other_card)
+struct ProbabilityItem
+{
+    bool eye;
+    int gui_num;
+    ProbabilityItem(bool eye, int gui_num)
+    {
+        this->eye = eye;
+        this->gui_num = gui_num;
+    }
+}
+
+struct ProbabilityItemTable
+{
+    ProbabilityItem m[4][5];
+    int array_num;
+    int m_num[4];
+}
+
+
+bool HuLib::get_hu_info(char* const hand_cards, Wave* const waves, char self_card, char other_card, int gui_index)
 {
     char hand_cards_tmp[34];
     memcpy(hand_cards_tmp, hand_cards, 34);
 
-    HuInfo info;
-
-    if(!check_zi(hand_cards_tmp, info))
+    if(self_card)
     {
-        LOG("字牌检查失败 \n");
-        return false;
+
+    }
+    else if(other_card)
+    {
+
     }
 
-    if(!check_chi(hand_cards_tmp, info, 0))
-    {
-        LOG("万牌检查失败 \n");
-        return false;
-    }
+    int gui_num = hand_cards_tmp[gui_index];
+    hand_cards_tmp[gui_index] = 0;
 
-    if(!check_chi(hand_cards_tmp, info, 9))
-    {
-        LOG("筒牌检查失败\n");
-        return false;
-    }
+}
 
-    if(!check_chi(hand_cards_tmp, info, 18))
-    {
-        LOG("条牌检查失败\n");
-        return false;
-    }
-
-    return true;
+void HuLib::split_info(char* const cards, int gui_num)
+{
 }
 
 bool HuLib::check_zi(char* const hand_cards, HuInfo& info)

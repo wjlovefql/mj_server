@@ -16,7 +16,7 @@ struct HuInfo
 class HuLib
 {
 public:
-    static bool get_hu_info(char* const hand_cards, Wave* const waves, char self_card, char other_card);
+    static bool get_hu_info(char* const hand_cards, Wave* const waves, char self_card, char other_card, int gui_index);
 private:
     static bool check_zi(char* const hand_cards, HuInfo& info);
     static bool check_chi(char* const hand_cards, HuInfo& info, int min);
