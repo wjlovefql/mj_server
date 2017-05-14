@@ -1,5 +1,7 @@
+#include <stdio.h>
 #include "table_mgr.h"
 #include "set_table.h"
+
 
 TableMgr::TableMgr()
 {
@@ -45,6 +47,12 @@ TableMgr::~TableMgr()
     {
         delete m_check_feng_eye_table[i];
     }
+}
+
+TableMgr* TableMgr::get_instance()
+{
+    static TableMgr mgr;
+    return &mgr;
 }
 
 bool TableMgr::set_collect()
@@ -102,11 +110,60 @@ bool TableMgr::check(int key, int gui_num, bool eye, bool chi)
 
 bool TableMgr::load()
 {
+    char path[256];
+    for(int i=0; i<5; ++i)
+    {
+        sprintf(path, "tbl/check_table_%d", i);
+        m_check_table[i]->load(path);
+    }
+
+    for(int i=0; i<5; ++i)
+    {
+        sprintf(path, "tbl/check_eye_table_%d", i);
+        m_check_eye_table[i]->load(path);
+    }
+ 
+    for(int i=0; i<5; ++i)
+    {
+        sprintf(path, "tbl/check_feng_table_%d", i);
+        m_check_feng_table[i]->load(path);
+    }
+
+    for(int i=0; i<5; ++i)
+    {
+        sprintf(path, "tbl/check_feng_eye_table_%d", i);
+        m_check_feng_eye_table[i]->load(path);
+    }
     return true;
 }
 
 bool TableMgr::dump()
 {
+    char path[256];
+    for(int i=0; i<5; ++i)
+    {
+        sprintf(path, "tbl/check_table_%d", i);
+        m_check_table[i]->dump(path);
+    }
+
+    for(int i=0; i<5; ++i)
+    {
+        sprintf(path, "tbl/check_eye_table_%d", i);
+        m_check_eye_table[i]->dump(path);
+    }
+ 
+    for(int i=0; i<5; ++i)
+    {
+        sprintf(path, "tbl/check_feng_table_%d", i);
+        m_check_feng_table[i]->dump(path);
+    }
+
+    for(int i=0; i<5; ++i)
+    {
+        sprintf(path, "tbl/check_feng_eye_table_%d", i);
+        m_check_feng_eye_table[i]->dump(path);
+    }
+
     return true;
 }
 

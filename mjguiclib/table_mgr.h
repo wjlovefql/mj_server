@@ -9,6 +9,8 @@ public:
 
     ~TableMgr();
 
+    static TableMgr* get_instance();
+
     bool set_collect();
 
     bool check(int key, int gui_num, bool eye, bool chi);

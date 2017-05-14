@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "hulib.h"
-#include "wave_table.h"
-#include "wave_eye_table.h"
+#include "table_mgr.h"
 
 //#define LOG printf
 #define LOG log
@@ -10,25 +9,6 @@
 void log(char*, ...)
 {
 }
-
-struct ProbabilityItem
-{
-    bool eye;
-    int gui_num;
-    ProbabilityItem(bool eye, int gui_num)
-    {
-        this->eye = eye;
-        this->gui_num = gui_num;
-    }
-}
-
-struct ProbabilityItemTable
-{
-    ProbabilityItem m[4][5];
-    int array_num;
-    int m_num[4];
-}
-
 
 bool HuLib::get_hu_info(char* const hand_cards, Wave* const waves, char self_card, char other_card, int gui_index)
 {
@@ -47,107 +27,140 @@ bool HuLib::get_hu_info(char* const hand_cards, Wave* const waves, char self_car
     int gui_num = hand_cards_tmp[gui_index];
     hand_cards_tmp[gui_index] = 0;
 
-}
-
-void HuLib::split_info(char* const cards, int gui_num)
-{
-}
-
-bool HuLib::check_zi(char* const hand_cards, HuInfo& info)
-{
-    for(int i = 27; i<34; ++i)
-    {
-        int n = hand_cards[i];
-        if(n == 1 || n == 4)
-        {
-            return false;
-        }
-
-        if(n == 2)
-        {
-            if(info.eye)
-            {
-                return false;
-            }
-
-            info.eye = true;
-        }
-    }
-
-    return true;
-}
-
-bool HuLib::check_chi(char* const hand_cards, HuInfo& info, int min)
-{
-    char tbl[9];
-    int n = 0;
-
-    for(int i=min; i<min+9; ++i)
-    {
-        int c = hand_cards[i];
-        if(c > 0)
-        {
-            tbl[n++] = c;
-        }
-        else
-        {
-            if(n==0) continue;
-
-            if(!check_sub(tbl, n, info))
-            {
-                return false;
-            }
-
-            n = 0;
-        }
-    }
-
-    return true;
-}
-
-bool HuLib::check_sub(char* const cards, int n, HuInfo& info)
-{
-    LOG("wave:  ");
-    for(int i=0;i<n;++i)
-    {
-        LOG("%d ", cards[i]);
-    }
-    LOG("\n");
-
-    int c = 0;
-    int number = 0;
-    for(int i=0;i<n;i++)
-    {
-        c = c + cards[i];
-        number = number * 10 + cards[i];
-    }
-
-    int yu = c % 3;
-
-    if(yu == 1)
+    ProbabilityItemTable ptbl;
+    if(!split(hand_cards_tmp, gui_num, ptbl))
     {
         return false;
     }
-    else if(yu == 2)
+
+    return check_probability(ptbl, gui_num);
+}
+
+bool HuLib::split(char* const cards, int gui_num, ProbabilityItemTable& ptbl)
+{
+    if(!_split(cards, gui_num, 0,  0,  8, true,  ptbl)) return false;
+    if(!_split(cards, gui_num, 1,  9, 17, true,  ptbl)) return false;
+    if(!_split(cards, gui_num, 2, 18, 26, true,  ptbl)) return false;
+    if(!_split(cards, gui_num, 3, 27, 33, false, ptbl)) return false;
+
+    return true;
+}
+
+bool HuLib::_split(char* const cards, int gui_num, int color, int min, int max, bool chi, ProbabilityItemTable& ptbl)
+{
+    int key = 0;
+    int num = 0;
+
+    for(int i = min; i <= max; ++i)
     {
-        if(info.eye) return false;
-
-        info.eye = true;
-
-        return check_wave_and_eye(number);
+        key = key*10 + cards[i];
+        num = num + cards[i];
     }
 
-    return check_wave(number);
+    if(num > 0)
+    {
+        if(list_probability(color, gui_num, num, key, chi, ptbl))
+        {
+            ptbl.array_num++;
+            return true;
+        }
+    }
+    {
+        return true;
+    }
+
+    return false;
 }
 
-bool HuLib::check_wave(int number)
+bool HuLib::list_probability(int color, int gui_num, int num, int key, bool chi, ProbabilityItemTable& ptbl)
 {
-    return WaveTable::getInstance()->check(number);
+
+    for(int i=0; i<gui_num; ++i)
+    {
+        int yu = (num + i)%3;
+        if(yu == 0)
+        {
+            if(TableMgr::get_instance()->check(key, i, false, chi))
+            {
+                ProbabilityItem& item = ptbl.m[color][ptbl.m_num[color]];
+                ptbl.m_num[color]++;
+
+                item.eye = false;
+                item.gui_num = i;
+            }
+        }
+        else if(yu == 2)
+        {
+
+            if(TableMgr::get_instance()->check(key, i, true, chi))
+            {
+                ProbabilityItem& item = ptbl.m[color][ptbl.m_num[color]];
+                ptbl.m_num[color]++;
+
+                item.eye = true;
+                item.gui_num = i;
+
+            }
+        }
+    }
+
+    return ptbl.m_num[color] > 0;
 }
 
-bool HuLib::check_wave_and_eye(int number)
+bool HuLib::check_probability(ProbabilityItemTable& ptbl, int gui_num)
 {
-    return WaveEyeTable::getInstance()->check(number);
+    // 全是鬼牌
+    if(ptbl.array_num == 0) return true;
+    
+    // 只有一种花色的牌的鬼牌
+    if(ptbl.array_num == 1) return true;
+
+    // 尝试组合花色，能组合则胡
+    for(int i=0; i<ptbl.array_num; ++i)
+    {
+        ProbabilityItem& item = ptbl.m[0][i];
+        bool eye = item.eye;
+        int gui_num = gui_num - item.gui_num;
+        if(check_probability_sub(ptbl, eye, gui_num, 1, ptbl.array_num))
+        {
+            return true;
+        }
+    }
+    return true;
+}
+
+bool HuLib::check_probability_sub(ProbabilityItemTable& ptbl, bool& eye, int& gui_num, int level, int max_level)
+{
+    for(int i=0; i<ptbl.m_num[level]; ++i)
+    {
+        ProbabilityItem& item = ptbl.m[level][i];
+
+        if(eye && item.eye) continue;
+
+        if(gui_num < item.gui_num) continue;
+
+        if(level < max_level)
+        {
+            int old_gui_num = gui_num;
+            bool old_eye = eye;
+            gui_num -= item.gui_num;
+            eye = eye || item.eye;
+
+            if(check_probability_sub(ptbl, eye, gui_num, level + 1, ptbl.array_num))
+            {
+                return true;
+            }
+
+            eye = old_eye;
+            gui_num = old_gui_num;
+            continue;
+        }
+
+        if(!eye && !item.eye && item.gui_num + 2 > gui_num) continue;
+        return true;
+    }
+
+    return false;
 }
 
 bool HuLib::check_7dui(char* const cards)

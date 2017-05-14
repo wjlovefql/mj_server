@@ -1,8 +1,16 @@
 #include <stdio.h>
 #include <set>
 #include "hulib.h"
-#include "wave_table.h"
-#include "wave_eye_table.h"
+#include "table_mgr.h"
+
+void parse_table(char* cards)
+{
+    int count = 0;
+    for(int i=0; i<9; ++i)
+	{
+        count += cards[i];
+	}
+}
 
 void check_hu(char* cards)
 {
@@ -26,9 +34,9 @@ void check_hu(char* cards)
 
     tested.insert(num);
 
-    if(!HuLib::get_hu_info(cards, NULL, 0, 0))
+    if(HuLib::get_hu_info(cards, NULL, 0, 0, 18))
     {
-        //printf("测试失败");
+        parse_table(cards);
     }
 }
 
@@ -81,8 +89,7 @@ void gen_auto_table_sub(char* cards, int level)
 
 void gen_auto_table()
 {
-    WaveTable::getInstance()->setCollect();
-    WaveEyeTable::getInstance()->setCollect();
+    TableMgr::getInstance()->set_collect();
 
     char cards[34] = {0};
 
@@ -101,7 +108,7 @@ void gen_auto_table()
 
 int main()
 {
-  printf("generate wave table begin...\n");
+  printf("generate table begin...\n");
   gen_auto_table();
 
   return 0;
