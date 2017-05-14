@@ -55,29 +55,6 @@ TableMgr* TableMgr::get_instance()
     return &mgr;
 }
 
-bool TableMgr::set_collect()
-{
-    for(int i=0; i<5; ++i)
-    {
-        m_check_table[i]->set_collect();
-    }
-
-    for(int i=0; i<5; ++i)
-    {
-        m_check_eye_table[i]->set_collect();
-    }
- 
-    for(int i=0; i<5; ++i)
-    {
-        m_check_feng_table[i]->set_collect();
-    }
-
-    for(int i=0; i<5; ++i)
-    {
-        m_check_feng_eye_table[i]->set_collect();
-    }
-}
-
 bool TableMgr::check(int key, int gui_num, bool eye, bool chi)
 {
     Table* tbl = 0;
@@ -106,6 +83,36 @@ bool TableMgr::check(int key, int gui_num, bool eye, bool chi)
     }
 
     return tbl->check(key);
+}
+
+void TableMgr::add(int key, int gui_num, bool eye, bool chi)
+{
+    Table* tbl = 0;
+
+    if(chi)
+    {
+        if(eye)
+        {
+            tbl = m_check_eye_table[gui_num];
+        }
+        else
+        {
+            tbl = m_check_table[gui_num];
+        }
+    }
+    else
+    {
+        if(eye)
+        {
+            tbl = m_check_feng_eye_table[gui_num];
+        }
+        else
+        {
+            tbl = m_check_feng_table[gui_num];
+        }
+    }
+
+    tbl->add(key);
 }
 
 bool TableMgr::load()
@@ -137,7 +144,7 @@ bool TableMgr::load()
     return true;
 }
 
-bool TableMgr::dump()
+bool TableMgr::dump_table()
 {
     char path[256];
     for(int i=0; i<5; ++i)
@@ -151,7 +158,11 @@ bool TableMgr::dump()
         sprintf(path, "tbl/check_eye_table_%d", i);
         m_check_eye_table[i]->dump(path);
     }
- 
+}
+
+bool TableMgr::dump_feng_table()
+{
+    char path[256];
     for(int i=0; i<5; ++i)
     {
         sprintf(path, "tbl/check_feng_table_%d", i);

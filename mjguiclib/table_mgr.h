@@ -11,13 +11,15 @@ public:
 
     static TableMgr* get_instance();
 
-    bool set_collect();
+    void add(int key, int gui_num, bool eye, bool chi);
 
     bool check(int key, int gui_num, bool eye, bool chi);
 
     bool load();
 
-    bool dump();
+    bool dump_table();
+
+    bool dump_feng_table();
 
     Table* m_check_table[5];
     Table* m_check_eye_table[5];

@@ -3,13 +3,53 @@
 #include "hulib.h"
 #include "table_mgr.h"
 
+void add(char* cards, int gui_num, bool eye)
+{
+    int count = 0;
+    int key = 0;
+    for(int i=0; i<9; ++i)
+    {
+        count += cards[i];
+        key = key * 10 + cards[i];
+    }
+
+    TableMgr::get_instance()->add(key, gui_num, eye, true);
+}
+
+void parse_table_sub(char* cards, int num, bool eye)
+{
+    for(int i=0;i<9;++i)
+    {
+        if(cards[i] == 0) continue;
+
+        --cards[i];
+
+        add(cards, num, eye);
+
+        if(num < 4)
+        {
+            parse_table_sub(cards, num+1, eye);
+        }
+        ++cards[i];
+    }
+}
+
 void parse_table(char* cards)
 {
     int count = 0;
-    for(int i=0; i<9; ++i)
-	{
+    for(int i=0;i<9;++i)
+    {
         count += cards[i];
-	}
+    }
+
+    bool eye = false;
+    if(count%3 != 0)
+    {
+        eye = true;
+    }
+
+    add(cards, 0, eye);
+    parse_table_sub(cards, 1, eye);
 }
 
 void check_hu(char* cards)
@@ -34,10 +74,7 @@ void check_hu(char* cards)
 
     tested.insert(num);
 
-    if(HuLib::get_hu_info(cards, NULL, 0, 0, 18))
-    {
-        parse_table(cards);
-    }
+    parse_table(cards);
 }
 
 void gen_auto_table_sub(char* cards, int level)
@@ -89,8 +126,6 @@ void gen_auto_table_sub(char* cards, int level)
 
 void gen_auto_table()
 {
-    TableMgr::getInstance()->set_collect();
-
     char cards[34] = {0};
 
     for(int i=0; i<18; ++i)
@@ -101,9 +136,7 @@ void gen_auto_table()
         cards[i] = 0;
     }
 
-
-    WaveTable::getInstance()->dump("wave_table.data");
-    WaveEyeTable::getInstance()->dump("wave_eye_table.data");
+    TableMgr::get_instance()->dump_table();
 }
 
 int main()

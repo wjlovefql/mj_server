@@ -6,7 +6,7 @@ public:
     virtual ~Table(){}
 
 public:
-    virtual void set_collect()=0;
+    virtual void add(int key)=0;
 
     virtual bool check(int key)=0;
 

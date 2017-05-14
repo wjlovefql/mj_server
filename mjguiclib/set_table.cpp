@@ -4,32 +4,21 @@
 
 SetTable::SetTable()
 {
-    m_collect = false;
 }
 
 SetTable::~SetTable()
 {
 }
 
-void SetTable::set_collect()
-{
-    m_collect = true;
-}
-
 bool SetTable::check(int number)
 {
-    if(m_collect)
-    {
-        add(number);
-    }
-
     std::set<int>::iterator it = m_tbl.find(number);
     return it != m_tbl.end();
 }
 
-void SetTable::add(int number)
+void SetTable::add(int key)
 {
-    m_tbl.insert(number);
+    m_tbl.insert(key);
 }
 
 void SetTable::dump(char* name)

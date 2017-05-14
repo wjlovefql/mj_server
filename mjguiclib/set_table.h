@@ -6,20 +6,17 @@
 class SetTable : public Table {
 private:
     std::set<int> m_tbl;
-    bool m_collect;
 
 public:
     SetTable();
     virtual ~SetTable();
 
 public:
-    void set_collect();
+    virtual void add(int key);
 
-    bool check(int key);
+    virtual bool check(int key);
 
-    void dump(char* name);
+    virtual void dump(char* name);
 
-    void load(char* name);
-private:
-    void add(int key);
+    virtual void load(char* name);
 };
