@@ -24,8 +24,8 @@ gen_feng_table: gen_feng_table.o hulib.o set_table.o table_mgr.o
 test_hu.o: hulib.h test_hu.cpp
 	g++ -g -c test_hu.cpp
 
-test_hu: test_hu.o hulib.o wave_table.o wave_eye_table.o
-	g++ test_hu.o hulib.o wave_table.o wave_eye_table.o -o test_hu
+test_hu: test_hu.o hulib.o set_table.o table_mgr.o
+	g++ test_hu.o hulib.o set_table.o table_mgr.o -o test_hu
 
 table: gen_table
 	./gen_table

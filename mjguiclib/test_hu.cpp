@@ -1,23 +1,39 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <set>
 #include "hulib.h"
-#include "wave_table.h"
-#include "wave_eye_table.h"
+#include "table_mgr.h"
 
 void print_cards(char* cards)
 {
-    for(int i=0;i<34;++i)
+    for(int i=0;i<9;++i)
+    {
+          printf("%d,", cards[i]);
+    }
+    printf("\n");
+
+    for(int i=9;i<18;++i)
+    {
+          printf("%d,", cards[i]);
+    }
+    printf("\n");
+    for(int i=18;i<27;++i)
+    {
+          printf("%d,", cards[i]);
+    }
+    printf("\n");
+    for(int i=27;i<34;++i)
     {
           printf("%d,", cards[i]);
     }
     printf("\n");
 }
 
-void check_hu(char* cards)
+void check_hu(char* cards, int max_gui_index)
 {
     static std::set<int> tested;
 
-    for(int i=0;i<18;++i)
+    for(int i=0;i<max_gui_index;++i)
     {
         if(cards[i] > 4) return;
     }
@@ -35,10 +51,14 @@ void check_hu(char* cards)
 
     tested.insert(num);
 
-    if(!HuLib::get_hu_info(cards, NULL, 0, 0))
+    for(int i=0; i<max_gui_index; ++i)
     {
-        printf("测试失败 \n");
-        print_cards(cards);
+        if(!HuLib::get_hu_info(cards, NULL, 0, 0, i))
+        {
+            printf("测试失败 i=%d\n",i);
+            print_cards(cards);
+            abort();
+        }
     }
 }
 
@@ -69,7 +89,7 @@ void gen_auto_table_sub(char* cards, int level)
 
         if(level == 4)
         {
-            check_hu(cards);
+            check_hu(cards, 18);
         }
         else
         {
@@ -91,6 +111,7 @@ void gen_auto_table_sub(char* cards, int level)
 
 void test_two_color()
 {
+    printf("测试两种花色\n");
     char cards[34] = {0};
 
     for(int i=0; i<18; ++i)
@@ -105,13 +126,15 @@ void test_two_color()
 void test_one()
 {
     char cards[34] = {
-        0,1,1,3,0,0,0,0,0,
-        0,1,1,1,0,0,1,1,1,
-        0,0,0,0,0,1,1,1,0,
-        0,0,0,0,0,0,0
+        0,0,0,0,0,0,0,2,0,
+        0,0,3,1,1,1,0,0,0,
+        0,1,1,1,0,0,0,0,0,
+        0,0,0,2,0,1,0
     };
 
-    if(!HuLib::get_hu_info(cards, NULL, 0, 0))
+    printf("测试1种\n");
+    print_cards(cards);
+    if(!HuLib::get_hu_info(cards, NULL, 0, 0, 17))
     {
         printf("测试失败\n");
     }
@@ -124,10 +147,12 @@ void test_one()
 int main()
 {
     printf("test hulib begin...\n");
-    WaveTable::getInstance()->load("wave_table.data");
-    WaveEyeTable::getInstance()->load("wave_eye_table.data");
 
-    //test_two_color();
+    TableMgr::get_instance()->load();
+
     test_one();
+
+    test_two_color();
+
     return 0;
 }

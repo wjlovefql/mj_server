@@ -57,61 +57,56 @@ bool HuLib::_split(char* const cards, int gui_num, int color, int min, int max, 
         num = num + cards[i];
     }
 
+
     if(num > 0)
     {
-        if(list_probability(color, gui_num, num, key, chi, ptbl))
+        if(!list_probability(color, gui_num, num, key, chi, ptbl))
         {
-            ptbl.array_num++;
-            return true;
+            return false;
         }
     }
-    {
-        return true;
-    }
 
-    return false;
+    return true;
 }
 
 bool HuLib::list_probability(int color, int gui_num, int num, int key, bool chi, ProbabilityItemTable& ptbl)
 {
 
-    for(int i=0; i<gui_num; ++i)
+    for(int i=0; i<=gui_num; ++i)
     {
         int yu = (num + i)%3;
-        if(yu == 0)
+        if(yu == 1) continue;
+        bool eye = (yu == 2);
+        if(TableMgr::get_instance()->check(key, i, eye, chi))
         {
-            if(TableMgr::get_instance()->check(key, i, false, chi))
-            {
-                ProbabilityItem& item = ptbl.m[color][ptbl.m_num[color]];
-                ptbl.m_num[color]++;
+            ProbabilityItem& item = ptbl.m[color][ptbl.m_num[color]];
+            ptbl.m_num[color]++;
 
-                item.eye = false;
-                item.gui_num = i;
-            }
-        }
-        else if(yu == 2)
-        {
-
-            if(TableMgr::get_instance()->check(key, i, true, chi))
-            {
-                ProbabilityItem& item = ptbl.m[color][ptbl.m_num[color]];
-                ptbl.m_num[color]++;
-
-                item.eye = true;
-                item.gui_num = i;
-
-            }
+            item.eye = false;
+            item.gui_num = i;
         }
     }
 
-    return ptbl.m_num[color] > 0;
+    LOG("color = %d key = %d num = %d pra_num=%d\n", color, key, num, ptbl.m_num[color]);
+
+    if(ptbl.m_num[color] <= 0)
+    {
+        return false;
+    }
+
+    ptbl.array_num++;
+    return true;
 }
 
 bool HuLib::check_probability(ProbabilityItemTable& ptbl, int gui_num)
 {
+    log("组合 array_num = %d\n", ptbl.array_num);
     // 全是鬼牌
-    if(ptbl.array_num == 0) return true;
-    
+    if(ptbl.array_num == 0)
+    {
+        return gui_num >= 2;
+    }
+
     // 只有一种花色的牌的鬼牌
     if(ptbl.array_num == 1) return true;
 
