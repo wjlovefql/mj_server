@@ -158,6 +158,7 @@ bool TableMgr::dump_table()
         sprintf(path, "tbl/check_eye_table_%d", i);
         m_check_eye_table[i]->dump(path);
     }
+    return true;
 }
 
 bool TableMgr::dump_feng_table()

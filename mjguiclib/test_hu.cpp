@@ -126,15 +126,15 @@ void test_two_color()
 void test_one()
 {
     char cards[34] = {
-        0,0,0,0,0,0,0,2,0,
-        0,0,3,1,1,1,0,0,0,
-        0,1,1,1,0,0,0,0,0,
-        0,0,0,2,0,1,0
+        0,0,0,0,0,0,0,0,0,
+        1,1,1,2,2,0,2,2,2,
+        0,0,0,0,0,0,0,0,0,
+        0,0,0,0,0,0,0
     };
 
     printf("测试1种\n");
     print_cards(cards);
-    if(!HuLib::get_hu_info(cards, NULL, 0, 0, 17))
+    if(!HuLib::get_hu_info(cards, NULL, 12, 0, 30))
     {
         printf("测试失败\n");
     }
@@ -152,7 +152,7 @@ int main()
 
     test_one();
 
-    test_two_color();
+//    test_two_color();
 
     return 0;
 }

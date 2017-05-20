@@ -3,25 +3,26 @@
 #include "hulib.h"
 #include "table_mgr.h"
 
-//#define LOG printf
-#define LOG log
+#define LOG printf
+//#define LOG log
 
 void log(char*, ...)
 {
 }
 
-bool HuLib::get_hu_info(char* const hand_cards, Wave* const waves, char self_card, char other_card, int gui_index)
+bool HuLib::get_hu_info(char* const hand_cards, Wave* const waves, char self_card_index, char other_card_index, int gui_index)
 {
     char hand_cards_tmp[34];
     memcpy(hand_cards_tmp, hand_cards, 34);
 
-    if(self_card)
+    if(self_card_index)
     {
-
+        hand_cards_tmp[self_card_index]++;
     }
-    else if(other_card)
+    else if(other_card_index)
     {
 
+        hand_cards_tmp[other_card_index]++;
     }
 
     int gui_num = hand_cards_tmp[gui_index];
