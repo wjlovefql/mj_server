@@ -145,49 +145,9 @@ function M.check_wave_and_eye(tbl)
         return true
     end
 
-    local len = #tbl
-    -- 拆出可能的眼位，再判断
-    for i,v in ipairs(tbl) do
-        repeat
-            if v < 2 then
-                break
-            end
-
-            local tmp_tbl_1 = {}
-            local tmp_tbl_2 = {}
-            for ii,vv in ipairs(tbl) do
-                table.insert(tmp_tbl_1, vv)
-            end
-
-            if v > 2 then
-                tmp_tbl_1[i] = v - 2
-            else
-                if i == 1 then
-                    table.remove(tmp_tbl_1, 1)
-                elseif i == len then
-                    table.remove(tmp_tbl_1)
-                else
-                    for ii = i + 1, len do
-                        table.insert(tmp_tbl_2, tbl[ii])
-                    end
-                    tmp_tbl_1[i] = nil
-                end
-            end
-
-            if not M.check_wave(tmp_tbl_1) then
-                break
-            end
-
-            if next(tmp_tbl_2) then
-                if not M.check_wave(tmp_tbl_2) then
-                    break
-                end
-            end
-
-            return true
-        until(true)
+    if wave_table_eye.collect then
+        wave_table_eye[num] = true
     end
-
     return false
 end
 

@@ -1,6 +1,7 @@
 package.path = "../../lualib/?.lua;"..package.path
 
 local auto_table = require "auto_table"
+local auto_table_with_eye = require "auto_table_with_eye"
 local utils = require "utils"
 local mjlib = require "mjlib"
 local hulib = require "hulib"
@@ -26,8 +27,8 @@ local function check_hu(t)
     tested_tbl[num] = true
 
     if not hulib.get_hu_info(t) then
-        print("测试失败")
-        utils.print_array(t)
+        --print("测试失败")
+        --utils.print_array(t)
     end
 end
 
@@ -65,70 +66,25 @@ end
 
 local function gen_auto_table()
     local t = {}
-    for i=1,33 do
+    for i=1,34 do
         table.insert(t,0)
     end
 
-    table.insert(t,2)
-
-    test_hu_sub(t, 1)
+    for i=1,18 do
+        t[i] = 2
+        print("将",i)
+        test_hu_sub(t, 1)
+        t[i] = 0
+    end
 
     utils.dump_table_2_file(auto_table, "./auto_table.lua")
-end
-
-local function gen_auto_table_with_eye()
-    local auto_table_with_eye = {}
-
-    local function add(item)
-        local num = 0
-        for i,v in ipairs(item) do
-            num = num * 10 + v
-        end
-        auto_table_with_eye[num] = true
-    end
-
-    local function get(num)
-        local t = {}
-        while(num > 0) do
-            local yushu = num%10
-            num = math.floor(num/10)
-            table.insert(t,1,yushu)
-        end
-        return t
-    end
-
-    for num,_ in pairs(auto_table) do
-        local t = get(num)
-        -- 在能加将的地方加一对牌
-        if #t < 9 then
-            local tmp = utils.copy_array(t)
-            utils.print_array(tmp)
-            table.insert(tmp,1,2)
-            add(tmp)
-
-            tmp = utils.copy_array(t)
-            table.insert(tmp,2)
-            add(tmp)
-        end
-
-        for i,c in ipairs(t) do
-            if c <= 2 then
-                local tmp = utils.copy_array(t)
-                tmp[i] = c + 2
-                add(tmp)
-            end
-        end
-    end
-
-    --utils.print_array(auto_table_with_eye)
     utils.dump_table_2_file(auto_table_with_eye, "./auto_table_with_eye.lua")
 end
 
 local function main()
     auto_table.collect = true
+    auto_table_with_eye.collect = true
     gen_auto_table()
-    auto_table.collect = nil
-    gen_auto_table_with_eye()
 end
 
 main()
