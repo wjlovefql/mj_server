@@ -89,6 +89,7 @@ func (this *HuLib) _split_color(cards []int, gui_num int, color int, min int, ma
 }
 
 func (this *HuLib) list_probability(color int, gui_num int, num int, key int, chi bool, ptbl *ProbabilityItemTable) bool {
+    anum := ptbl.array_num
     for i:=0; i<=gui_num; i++ {
         eye := false
         var yu int = (num + i)%3
@@ -98,15 +99,15 @@ func (this *HuLib) list_probability(color int, gui_num int, num int, key int, ch
             eye = true
         }
         if MTableMgr.check(key, i, eye, chi) {
-            item := &(ptbl.m[color][ptbl.m_num[color]])
-            ptbl.m_num[color]++
+            item := &(ptbl.m[anum][ptbl.m_num[anum]])
+            ptbl.m_num[anum]++
 
             item.eye = eye
             item.gui_num = i
         }
     }
 
-    if ptbl.m_num[color] <= 0 {
+    if ptbl.m_num[anum] <= 0 {
         return false
     }
 
@@ -127,7 +128,7 @@ func (this *HuLib)check_probability(ptbl *ProbabilityItemTable, gui_num int) boo
     }
 
     // 尝试组合花色，能组合则胡
-    for i:=0; i<ptbl.array_num; i++ {
+    for i:=0; i<ptbl.m_num[0]; i++ {
         item := &ptbl.m[0][i]
         eye := item.eye
         gui := gui_num - item.gui_num
