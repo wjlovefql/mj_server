@@ -102,7 +102,7 @@ namespace mjlib
 
         bool list_probability(int color, int gui_num, int num, int key, bool chi, ProbabilityItemTable ptbl)
         {
-
+			int anum = ptbl.array_num;
             for(int i=0; i<=gui_num; ++i)
             {
                 int yu = (num + i)%3;
@@ -110,15 +110,15 @@ namespace mjlib
                 bool eye = (yu == 2);
                 if(TableMgr.getInstance().check(key, i, eye, chi))
                 {
-                    ProbabilityItem item = ptbl.m[color,ptbl.m_num[color]];
-                    ptbl.m_num[color]++;
+                    ProbabilityItem item = ptbl.m[anum,ptbl.m_num[anum]];
+                    ptbl.m_num[anum]++;
 
                     item.eye = eye;
                     item.gui_num = i;
                 }
             }
 
-            if(ptbl.m_num[color] <= 0)
+            if(ptbl.m_num[anum] <= 0)
             {
                 return false;
             }
@@ -139,7 +139,7 @@ namespace mjlib
             if(ptbl.array_num == 1) return true;
 
             // 尝试组合花色，能组合则胡
-            for(int i=0; i<ptbl.array_num; ++i)
+            for(int i=0; i<ptbl.m_num[0]; ++i)
             {
                 ProbabilityItem item = ptbl.m[0,i];
                 bool eye = item.eye;
