@@ -101,7 +101,7 @@ func (this *HuLib) list_probability(color int, gui_num int, num int, key int, ch
             item := &(ptbl.m[color][ptbl.m_num[color]])
             ptbl.m_num[color]++
 
-            item.eye = false
+            item.eye = eye
             item.gui_num = i
         }
     }
@@ -135,7 +135,7 @@ func (this *HuLib)check_probability(ptbl *ProbabilityItemTable, gui_num int) boo
             return true
         }
     }
-    return true
+    return false
 }
 
 func (this *HuLib) check_probability_sub(ptbl *ProbabilityItemTable, eye *bool, gui_num *int, level int, max_level int) bool {
@@ -150,7 +150,7 @@ func (this *HuLib) check_probability_sub(ptbl *ProbabilityItemTable, eye *bool, 
             continue
         }
 
-        if level < max_level {
+        if level < max_level - 1 {
             old_gui_num := gui_num
             old_eye := eye
             *gui_num -= item.gui_num
