@@ -72,7 +72,7 @@ bool HuLib::_split(char* const cards, int gui_num, int color, int min, int max, 
 
 bool HuLib::list_probability(int color, int gui_num, int num, int key, bool chi, ProbabilityItemTable& ptbl)
 {
-
+    int anum = ptbl.array_num;
     for(int i=0; i<=gui_num; ++i)
     {
         int yu = (num + i)%3;
@@ -80,17 +80,17 @@ bool HuLib::list_probability(int color, int gui_num, int num, int key, bool chi,
         bool eye = (yu == 2);
         if(TableMgr::get_instance()->check(key, i, eye, chi))
         {
-            ProbabilityItem& item = ptbl.m[color][ptbl.m_num[color]];
-            ptbl.m_num[color]++;
+            ProbabilityItem& item = ptbl.m[anum][ptbl.m_num[anum]];
+            ptbl.m_num[anum]++;
 
             item.eye = eye;
             item.gui_num = i;
         }
     }
 
-    LOG("gui_num = %d, color = %d key = %d num = %d pra_num=%d\n", gui_num, color, key, num, ptbl.m_num[color]);
+    LOG("gui_num = %d, color = %d key = %d num = %d pra_num=%d\n", gui_num, color, key, num, ptbl.m_num[anum]);
 
-    if(ptbl.m_num[color] <= 0)
+    if(ptbl.m_num[anum] <= 0)
     {
         return false;
     }
@@ -101,7 +101,7 @@ bool HuLib::list_probability(int color, int gui_num, int num, int key, bool chi,
 
 bool HuLib::check_probability(ProbabilityItemTable& ptbl, int gui_num)
 {
-    log("组合 array_num = %d\n", ptbl.array_num);
+    LOG("组合 array_num = %d\n", ptbl.array_num);
     // 全是鬼牌
     if(ptbl.array_num == 0)
     {
@@ -112,7 +112,7 @@ bool HuLib::check_probability(ProbabilityItemTable& ptbl, int gui_num)
     if(ptbl.array_num == 1) return true;
 
     // 尝试组合花色，能组合则胡
-    for(int i=0; i<ptbl.array_num; ++i)
+    for(int i=0; i<ptbl.m_num[0]; ++i)
     {
         ProbabilityItem& item = ptbl.m[0][i];
         bool eye = item.eye;
