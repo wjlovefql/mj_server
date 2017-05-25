@@ -113,7 +113,7 @@ namespace mjlib
                     ProbabilityItem item = ptbl.m[color,ptbl.m_num[color]];
                     ptbl.m_num[color]++;
 
-                    item.eye = false;
+                    item.eye = eye;
                     item.gui_num = i;
                 }
             }
@@ -149,7 +149,7 @@ namespace mjlib
                     return true;
                 }
             }
-            return true;
+            return false;
         }
 
         bool check_probability_sub(ProbabilityItemTable ptbl, ref bool eye, ref int gui_num, int level, int max_level)
@@ -162,7 +162,7 @@ namespace mjlib
 
                 if(gui_num < item.gui_num) continue;
 
-                if(level < max_level)
+                if(level < max_level - 1)
                 {
                     int old_gui_num = gui_num;
                     bool old_eye = eye;
