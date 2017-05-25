@@ -15,11 +15,11 @@ bool HuLib::get_hu_info(char* const hand_cards, Wave* const waves, char self_car
     char hand_cards_tmp[34];
     memcpy(hand_cards_tmp, hand_cards, 34);
 
-    if(self_card_index)
+    if(self_card_index != 34)
     {
         hand_cards_tmp[self_card_index]++;
     }
-    else if(other_card_index)
+    else if(other_card_index != 34)
     {
 
         hand_cards_tmp[other_card_index]++;
@@ -83,12 +83,12 @@ bool HuLib::list_probability(int color, int gui_num, int num, int key, bool chi,
             ProbabilityItem& item = ptbl.m[color][ptbl.m_num[color]];
             ptbl.m_num[color]++;
 
-            item.eye = false;
+            item.eye = eye;
             item.gui_num = i;
         }
     }
 
-    LOG("color = %d key = %d num = %d pra_num=%d\n", color, key, num, ptbl.m_num[color]);
+    LOG("gui_num = %d, color = %d key = %d num = %d pra_num=%d\n", gui_num, color, key, num, ptbl.m_num[color]);
 
     if(ptbl.m_num[color] <= 0)
     {
@@ -116,13 +116,13 @@ bool HuLib::check_probability(ProbabilityItemTable& ptbl, int gui_num)
     {
         ProbabilityItem& item = ptbl.m[0][i];
         bool eye = item.eye;
-        int gui_num = gui_num - item.gui_num;
-        if(check_probability_sub(ptbl, eye, gui_num, 1, ptbl.array_num))
+        int gui = gui_num - item.gui_num;
+        if(check_probability_sub(ptbl, eye, gui, 1, ptbl.array_num))
         {
             return true;
         }
     }
-    return true;
+    return false;
 }
 
 bool HuLib::check_probability_sub(ProbabilityItemTable& ptbl, bool& eye, int& gui_num, int level, int max_level)
@@ -135,7 +135,7 @@ bool HuLib::check_probability_sub(ProbabilityItemTable& ptbl, bool& eye, int& gu
 
         if(gui_num < item.gui_num) continue;
 
-        if(level < max_level)
+        if(level < max_level - 1)
         {
             int old_gui_num = gui_num;
             bool old_eye = eye;
