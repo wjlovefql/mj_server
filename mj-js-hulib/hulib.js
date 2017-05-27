@@ -36,6 +36,7 @@ HuLib.init = function()
 
 HuLib.get_hu_info = function( cards, cur_card )
 {
+	_init()
     let tmp_cards = cards.concat();
     if ( cur_card != MAX_CARD ) 
     {
