@@ -9,7 +9,7 @@ let ProbabilityItemTable = { };
 function _init()
 {
     ProbabilityItem = { eye : false, gui_num : 0 };
-    ProbabilityItemTable = { array_num : 0, m_num : 0, m : [] };
+    ProbabilityItemTable = { array_num : 0, m_num : [ 0, 0, 0, 0 ], m : [] };
     for( let i = 0; i < 4; i ++ )
     {
         ProbabilityItemTable.m[ i ] = [];
@@ -23,34 +23,37 @@ _init();
 
 let HuLib = module.exports;
 
+HuLib.gui_index1 = 31;
+HuLib.gui_index2 = 32;
+
 HuLib.init = function()
 {
     //初始化数据
-    this.gui_index1 = 0;
-    this.gui_index2 = 0;
+    this.gui_index1 = 31;
+    this.gui_index2 = 32;
     _init();
 };
 
 HuLib.get_hu_info = function( cards, cur_card )
 {
-    let tmp_cards = cards;
+    let tmp_cards = cards.concat();
     if ( cur_card != MAX_CARD ) 
     {
-        tmp_cards[ cur_card ]++;
+        tmp_cards[ cur_card ] += 1;
     }
     let gui_index1 = this.gui_index1;
     let gui_index2 = this.gui_index2;
     let gui_num = 0;
     if( gui_index1 != MAX_CARD )
     {
-        gui_num = tmp_cards[ gui_index1 ]
+        gui_num += tmp_cards[ gui_index1 ];
         tmp_cards[ gui_index1 ] = 0;
 
     }
     if( gui_index2 != MAX_CARD ) 
     {
-        gui_num = gui_num + tmp_cards[ gui_index2 ];
-        tmp_cards[gui_index2] = 0;
+        gui_num += parseInt( tmp_cards[ gui_index2 ] );
+        tmp_cards[ gui_index2 ] = 0;
     }
     //var ptbl ProbabilityItemTable
     if ( this._split( tmp_cards, gui_num, ProbabilityItemTable ) )
@@ -97,7 +100,7 @@ HuLib.check_probability = function( ptbl, gui_num )
         }
     }
     return false;
-}
+};
 
 HuLib.check_probability_sub = function( ptbl, eye, gui_num, level, max_level ) 
 {
@@ -150,7 +153,7 @@ HuLib._split = function( cards, gui_num, ptbl )
     {
         return false;
     }
-    if ( this._split_color(cards, gui_num, 3, 27, 33, false, ptbl ) ) 
+    if ( this._split_color(cards, gui_num, 3, 28, 34, false, ptbl ) ) 
     {
         return false;
     }
@@ -197,7 +200,7 @@ HuLib.list_probability = function( color, gui_num, num, key, chi, ptbl )
         if ( MTableMgr.check( key, i, eye, chi ) )
         {
             let item = ptbl.m[ anum ][ ptbl.m_num[ anum ] ];
-            ptbl.m_num[anum]++;
+            ptbl.m_num[ anum ]++;
             item.eye = eye;
             item.gui_num = i;
         }
