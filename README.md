@@ -1,4 +1,4 @@
-# mj_server
+# mj_server (mahjong game server with fast algorithm)
 房卡类麻将服务器
 
 客户端
