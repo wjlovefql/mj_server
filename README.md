@@ -4,6 +4,8 @@
 客户端
 https://github.com/yuanfengyun/mj_client
 
+棋牌胡牌算法： https://github.com/yuanfengyun/qipai
+
 1、下载源码
 
   git clone https://github.com/yuanfengyun/mj_server.git
