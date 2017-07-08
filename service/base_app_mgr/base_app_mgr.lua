@@ -12,7 +12,7 @@ function M:create_base_apps()
         local addr = skynet.newservice("base_app", i)
         local info = {
             addr = addr,
-            port = 9000 + i
+            port = 8090 + i
         }
 
         self.base_app_tbl[addr] = info

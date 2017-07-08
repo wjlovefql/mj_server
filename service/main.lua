@@ -1,12 +1,12 @@
 local skynet = require "skynet"
 
 local function main()
-    skynet.newservice("debug_console", 8000)
+    skynet.newservice("debug_console", 8081)
 
     -- 登陆服务
     local login = skynet.newservice("login")
     skynet.call(login, "lua", "start", {
-        port = 8888,
+        port = 8080,
         maxclient = 1000,
         nodelay = true,
     })
