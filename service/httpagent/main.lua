@@ -16,15 +16,20 @@ local function response(id, code, msg, ...)
     end
 end
 
--- 注册
-local function register(id, msg)
-    local ret = skynet.call("account_mgr", "lua", "register", msg)
+local function login_lobby(id, msg)
+    local ret = skynet.call("player_mgr", "lua", "login_lobby", msg)
     response(id, 200, ret)
 end
 
--- 登录
-local function login(id, msg)
-    local ret = skynet.call("account_mgr", "lua", "login", msg)
+-- 创建房间
+local function create_room(id, msg)
+    local ret = skynet.call("player_mgr", "lua", "create_room", msg)
+    response(id, 200, ret)
+end
+
+-- 加入房间
+local function join_room(id, msg)
+    local ret = skynet.call("player_mgr", "lua", "join_room", msg)
     response(id, 200, ret)
 end
 
@@ -38,10 +43,12 @@ local function handle(id)
     end
 
     local msg = cjson.decode(body)
-    if url == "/register" then
-        register(id, msg)
-    elseif url == "/login" then
-        login(id, msg)
+    if url == "/login_lobby" then
+        login_lobby(id, msg)
+    elseif url == "/create_room" then
+        create_room(id, msg)
+    elseif url == "/join_room" then
+        join_room(id, msg)
     end
 end
 

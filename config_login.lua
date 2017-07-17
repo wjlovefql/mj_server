@@ -20,4 +20,4 @@ luaservice = "./login/?.lua;./login/?/main.lua;"..luaservice
 lua_path = "./lualib/?.lua;"..lua_path
 lua_cpath = "./luaclib/?.so;"..lua_cpath
 
-LOGIN_WEB_PORT = 1999
+LOGIN_WEB_PORT = 2017

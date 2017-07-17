@@ -1,19 +1,13 @@
 local skynet = require "skynet"
-require "skynet.manager"
-local account_mgr = require "account_mgr"
 
 local CMD = {}
 
-function CMD.start(conf)
-    account_mgr:init()
+function CMD.create()
+
 end
 
-function CMD.register(msg)
-    return account_mgr:register(msg)
-end
+function CMD.join()
 
-function CMD.login(msg)
-    return account_mgr:login(msg)
 end
 
 skynet.start(function()
@@ -28,6 +22,6 @@ skynet.start(function()
         else
             f(...)
         end
+
     end)
-    skynet.register("account_mgr")
 end)
