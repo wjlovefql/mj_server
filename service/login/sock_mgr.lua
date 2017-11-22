@@ -1,5 +1,5 @@
 local skynet = require "skynet"
-local socket = require "socket"
+local socket = require "skynet.socket"
 local utils = require "utils"
 local packer = require "packer"
 local account_mgr = require "account_mgr"
