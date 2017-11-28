@@ -10,7 +10,7 @@ local fd = assert(socket.connect("127.0.0.1", 8080))
 -- 发送消息至服务器
 function send_request(name, msg)
     print(name)
-    local id = msg_define.name_2_id(name)
+    local id = msg_define.nameToId(name)
     local msg_str = utils.table_2_str(msg)
     local len = 2 + 2 + #msg_str
     local data = string.pack(">HHs2", len, id, msg_str)

@@ -42,7 +42,7 @@ function M:data(fd, msg)
     skynet.error(string.format("recv socket data fd = %d, len = %d ", fd, #msg))
     local proto_id, params = string.unpack(">Hs2", msg)
 
-    local proto_name = msg_define.id_2_name(proto_id)
+    local proto_name = msg_define.idToName(proto_id)
 
     skynet.error(string.format("socket msg id:%d name:%s %s", proto_id, proto_name, params))
     params = utils.str_2_table(params)
@@ -83,7 +83,7 @@ function M:dispatch(fd, proto_id, proto_name, params)
 end
 
 function M:send(fd, proto_name, msg)
-    local proto_id = msg_define.name_2_id(proto_name)
+    local proto_id = msg_define.nameToId(proto_name)
     local str = utils.table_2_str(msg)
     skynet.error("send msg:"..proto_name)
     socket.write(fd, packer.pack(proto_id, proto_id))

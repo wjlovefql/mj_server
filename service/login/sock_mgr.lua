@@ -43,7 +43,7 @@ function M:data(fd, msg)
     skynet.error(string.format("msg id:%d content:%s", proto_id, params))
     params = utils.str_2_table(params)
 
-    local proto_name = msg_define.id_2_name(proto_id)
+    local proto_name = msg_define.idToName(proto_id)
 
     self:dispatch(fd, proto_id, proto_name, params)
 end
