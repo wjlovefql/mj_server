@@ -1,14 +1,9 @@
 # mj_server (mahjong game server with fast algorithm)
-房卡类麻将服务器
-
-客户端
-https://github.com/yuanfengyun/mj_client
-
-棋牌胡牌算法： https://github.com/yuanfengyun/qipai
+房卡类棋牌服务器
 
 1、下载源码
 
-  git clone https://github.com/yuanfengyun/mj_server.git
+  git clone git@github.com:dadidzf/HeroChess.git
 
 2、初始化submodule
 
