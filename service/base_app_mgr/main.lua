@@ -16,7 +16,7 @@ end
 
 -- 为玩家分配一个baseapp
 function CMD.get_base_app_addr(account_info)
-    return {ip = "127.0.0.1", port = "9001", token = "token"}
+    return {ip = "127.0.0.1", port = "8091", token = "token"}
 end
 
 local function lua_dispatch(_, session, cmd, ...)
