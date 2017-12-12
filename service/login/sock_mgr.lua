@@ -68,6 +68,8 @@ function M:dispatch(fd, proto_id, proto_name, params)
     if ret_msg then
         skynet.error("ret msg:"..utils.table_2_str(ret_msg))
         socket.write(fd, packer.pack(proto_id, ret_msg))
+
+        skynet.call(self.gate, "lua", "kick", fd)
     end
 end
 

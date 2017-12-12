@@ -1,3 +1,4 @@
+require "my_init"
 local skynet = require "skynet"
 local db = require "db"
 local sock_mgr = require "sock_mgr"
@@ -16,13 +17,16 @@ function CMD.start(conf)
 end
 
 function CMD.room_begin(msg)
-    print("room_begin")
     local obj = player_mgr:get_by_account(msg.account)
     if not obj then
         return
     end
 
     obj:room_begin(msg)
+end
+
+function CMD.get_clients()
+    return {clients = sock_mgr:get_clients()}
 end
 
 function CMD.sendto_client(account, proto_name, msg)
