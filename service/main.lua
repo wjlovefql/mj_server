@@ -6,7 +6,7 @@ local function main()
     -- 登陆服务
     local login = skynet.newservice("login")
     skynet.call(login, "lua", "start", {
-        port = 8080,
+        port = 16800,
         maxclient = 1000,
         nodelay = true,
     })

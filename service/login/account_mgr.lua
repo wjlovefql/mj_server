@@ -1,13 +1,14 @@
+local skynet = require "skynet"
 local MongoLib = require "mongolib"
 local utils = require "utils"
 
 local mongo_host = "127.0.0.1"
-local mongo_db = "mj_server"
+local mongo_db = "herochess"
 
 local dbconf = {
-    host="127.0.0.1",
-    port=27017,
-    db="game",
+    host = "127.0.0.1",
+    port = 27017,
+--    db="game",
 --    username="yun",
 --    password="yun",
 --    authmod="mongodb_cr"

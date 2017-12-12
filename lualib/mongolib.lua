@@ -1,4 +1,4 @@
-local mongo = require "mongo"
+local mongo = require "skynet.db.mongo"
 
 local M = {}
 

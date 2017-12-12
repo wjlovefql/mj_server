@@ -24,14 +24,14 @@ function M:load_from_db()
     if obj then
         self._db = obj
     else
-        M:_create_db()
+        self:_create_db()
     end
 end
 
 function M:_create_db()
     local obj = {
         account = self.account,
-        nick_name = "haha"..os.time(),
+        nick_name = "Hero"..os.time(),
         score = 0,
     }
     db:save_player(obj)
@@ -42,7 +42,7 @@ function M:pack()
     return {
         account = self.account,
         nick_name = self._db.nick_name,
-        socre = self._db.score
+        score = self._db.score
     }
 end
 

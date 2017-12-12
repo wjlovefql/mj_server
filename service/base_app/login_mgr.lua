@@ -6,13 +6,15 @@ local M = {}
 
 function M:init()
     self.new_conn_tbl = {}
-    sock_mgr:register_callback("login.login_baseapp", self.auth, self)
+    sock_mgr:register_callback("login.login_baseapp", handler(self, self.auth))
 end
 
 function M:auth(fd, msg)
     if msg.token ~= "token" then
         return {errmsg = "wrong token"}
     end
+
+    sock_mgr:auth_fd(fd)
 
     self.new_conn_tbl[fd] = nil
 
