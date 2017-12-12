@@ -19,12 +19,13 @@ end
 function id_mgr:gen_id(game_id)
     local len = #self.tbl 
     local index = math.random(1, len)
-    local ret_id = self.tbl{index}
-    table.remove(self.tbl, index)
+    local ret_id = self.tbl[index]
+    self.tbl[index] = self.tbl[len]
+    self.tbl[len] = nil
 
     -- table.insert(self.game_map_room_id[game_id], ret_id)
     -- self.room_id_map_game[ret_id] = game_id
-    
+
     return ret_id
 end
 
