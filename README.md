@@ -1,4 +1,7 @@
 # mj_server (mahjong game server with fast algorithm)
+
+skynet视频课程QQ群：805696011
+
 房卡类棋牌服务器
 
 客户端：https://github.com/yuanfengyun/mj_client
