@@ -29,6 +29,5 @@ skynet.start(function()
     end)
 
     skynet.register("login")
-
     skynet.error("login booted...")
 end)

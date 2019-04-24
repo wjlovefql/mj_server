@@ -77,7 +77,7 @@ function M:deal_package(fd, data)
     local id, param_str = string.unpack(">Hs2", data)
     print("recv package:", id, param_str)
 
-    local name = msg_define.id_2_name(id)
+    local name = msg_define.idToName(id)
     local param = utils.str_2_table(param_str)
 
     self:dispatch_msg(fd, name, param)
@@ -89,7 +89,7 @@ function M:close(fd)
 end
 
 function M:send_request(fd, name, msg)
-    local id = msg_define.name_2_id(name)
+    local id = msg_define.nameToId(name)
     local msg_str = utils.table_2_str(msg)
     local len = 2 + 2 + #msg_str
     local data = string.pack(">HHs2", len, id, msg_str)

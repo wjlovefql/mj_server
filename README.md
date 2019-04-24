@@ -1,8 +1,10 @@
-# mj_server
-房卡类麻将服务器
+# mj_server (mahjong game server with fast algorithm)
 
-客户端
-https://github.com/yuanfengyun/mj_client
+skynet视频课程QQ群：805696011
+
+房卡类棋牌服务器
+
+客户端：https://github.com/yuanfengyun/mj_client
 
 1、下载源码
 

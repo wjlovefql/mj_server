@@ -4,7 +4,7 @@ local utils = require "utils"
 local dbconf = {
     host="127.0.0.1",
     port=27017,
-    db="mj_server",
+--    db="mj_server",
 --    username="yun",
 --    password="yun",
 --    authmod="mongodb_cr"
@@ -15,7 +15,7 @@ local M = {}
 function M:init()
     self.mongo = MongoLib.new()
     self.mongo:connect(dbconf)
-    self.mongo:use("mj_server")
+    self.mongo:use("herochess")
 end
 
 function M:load_player(account)

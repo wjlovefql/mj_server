@@ -7,3 +7,6 @@
 [submodule "3rd/perfect-hash"]
 	path = 3rd/perfect-hash
 	url = https://github.com/driedfruit/jenkins-minimal-perfect-hash.git
+[submodule "3rd/cjson"]
+	path = 3rd/cjson
+	url = https://github.com/mpx/lua-cjson.git

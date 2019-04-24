@@ -1,6 +1,7 @@
-local M = {}
+local MsgDefine = {}
 
-local id_tbl = {
+local _idTbl = {
+
     -- 登陆协议
     {name = "login.login"},
     {name = "login.register"},
@@ -9,21 +10,21 @@ local id_tbl = {
     {name = "room.create_room"},
     {name = "room.join_room"},
     {name = "room.room_begin"},
-    {name = "match.dealt"},
+    {name = "match.dealt"}
 }
 
-local name_tbl = {}
+local _nameTbl = {}
 
-for id,v in ipairs(id_tbl) do
-    name_tbl[v.name] = id
+for id, v in ipairs(_idTbl) do
+    _nameTbl[v.name] = id
 end
 
-function M.name_2_id(name)
-    return name_tbl[name]
+function MsgDefine.nameToId(name)
+    return _nameTbl[name]
 end
 
-function M.id_2_name(id)
-    local v = id_tbl[id]
+function MsgDefine.idToName(id)
+    local v = _idTbl[id]
     if not v then
         return
     end
@@ -31,13 +32,13 @@ function M.id_2_name(id)
     return v.name
 end
 
-function M.get_by_id(id)
-    return id_tbl[id]
+function MsgDefine.getNameById(id)
+    return _idTbl[id]
 end
 
-function M.get_by_name(name)
-    local id = name_tbl[name]
-    return id_tbl[id]
+function MsgDefine.getIdByName(name)
+    local id = _nameTbl[name]
+    return _idTbl[id]
 end
 
-return M
+return MsgDefine

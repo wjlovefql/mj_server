@@ -1,5 +1,5 @@
 local skynet = require "skynet"
-local socket = require "socket"
+local socket = require "skynet.socket"
 local utils = require "utils"
 local packer = require "packer"
 local account_mgr = require "account_mgr"
@@ -43,7 +43,7 @@ function M:data(fd, msg)
     skynet.error(string.format("msg id:%d content:%s", proto_id, params))
     params = utils.str_2_table(params)
 
-    local proto_name = msg_define.id_2_name(proto_id)
+    local proto_name = msg_define.idToName(proto_id)
 
     self:dispatch(fd, proto_id, proto_name, params)
 end
@@ -68,6 +68,8 @@ function M:dispatch(fd, proto_id, proto_name, params)
     if ret_msg then
         skynet.error("ret msg:"..utils.table_2_str(ret_msg))
         socket.write(fd, packer.pack(proto_id, ret_msg))
+
+        skynet.call(self.gate, "lua", "kick", fd)
     end
 end
 

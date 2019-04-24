@@ -16,7 +16,16 @@ end
 
 -- 为玩家分配一个baseapp
 function CMD.get_base_app_addr(account_info)
-    return {ip = "127.0.0.1", port = "9001", token = "token"}
+    for addr, info in pairs(base_app_mgr:get_base_app_tbl()) do
+        local ret = skynet.call(addr, "lua", "get_clients")
+        skynet.error(string.format("Current clicent of port %d is %d", info.port, ret.clients))
+
+        if ret.clients < 1000 then
+            return {ip = "192.168.18.107", port = info.port, token = "token"}
+        end
+    end
+
+    return {errmsg = "No more base app to connect !"}
 end
 
 local function lua_dispatch(_, session, cmd, ...)
